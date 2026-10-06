@@ -42,8 +42,9 @@ To run this application properly on your Arch Linux or Omarchy system, ensure yo
 
 2. **Clone or Download** the project repository to your local machine:
    ```bash
-   git clone https://github.com/your-username/nvidia-gpu-power-manager.git
+   git clone https://github.com/beraterkek121122/NVIDIA-GPU-Power-Manager.git
    cd nvidia-gpu-power-manager
+   python main.py
    ```
 
 3. **Ensure the backend script is in place:**
