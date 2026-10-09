@@ -1,40 +1,39 @@
 ![screenshot](gpu-manager.png)
 
-cat << 'EOF' | sudo tee /usr/local/bin/gpu-mode > /dev/null
-#!/bin/bash
+# NVIDIA GPU Power Manager
 
-# NVIDIA GPU Performance Manager Backend
+A sleek, modern Linux desktop utility built with Python and `tkinter` featuring the **Catppuccin Mocha** color palette. Designed to easily toggle NVIDIA GPU performance modes and monitor real-time hardware telemetry using `nvidia-smi` and PolicyKit (`pkexec`), tailored specifically for **Arch Linux**, **CachyOS**, and **Omarchy**.
 
-if [ "$EUID" -ne 0 ]; then
-  echo "Please run this script as root/sudo: sudo gpu-mode [on|off|status]"
-  exit 1
-fi
+---
 
-case "$1" in
-  on)
-    echo "=== Setting GPU to Maximum Performance Mode ==="
-    nvidia-smi -pm 1
-    nvidia-smi -pl 80
-    nvidia-smi --auto-boost-default=0
-    nvidia-smi -ac 7000,1545
-    echo "✔ Maximum performance mode activated!"
-    ;;
-  off)
-    echo "=== Resetting GPU to Default Power Mode ==="
-    nvidia-smi -acp 0
-    nvidia-smi --auto-boost-default=1
-    nvidia-smi -pm 0
-    echo "✔ Default power management activated!"
-    ;;
-  status)
-    echo "=== Current GPU Power and Clock Status ==="
-    nvidia-smi --query-gpu=power.draw,power.limit,clocks.gr,clocks.sm,clocks.mem,temperature.gpu --format=csv
-    ;;
-  *)
-    echo "Usage: sudo gpu-mode {on|off|status}"
-    exit 1
-    ;;
-esac
-EOF
+## Features
 
-sudo chmod +x /usr/local/bin/gpu-mode
+- **Performance Mode Toggle:** Instantly switch between maximum performance (`on`) and default/balanced power states (`off`) with root privileges via `pkexec`.
+- **Real-Time GPU Telemetry:** Automatically queries `nvidia-smi` to display live hardware statistics:
+  - Power Draw / Limit
+  - Core Clock Speed
+  - Memory Clock Speed
+  - GPU Temperature
+  - GPU Load (Utilization)
+- **Modern UI Design:** Clean, distraction-free interface styled with the popular Catppuccin Mocha dark theme and custom cursor feedback.
+
+---
+
+## Prerequisites & Dependencies
+
+To run this application properly on your Arch Linux / CachyOS / Omarchy system, ensure you have the following installed:
+
+1. **Python 3.x** and `tk` (`tkinter`)
+2. **NVIDIA Proprietary Drivers** & `nvidia-smi` command-line utility
+3. **PolicyKit (`polkit`)**: Required for graphical root password prompts (`pkexec`)
+
+---
+
+## Installation & Setup
+
+### 1. Install Required System Dependencies
+
+Run the following command in your terminal:
+
+```bash
+sudo pacman -S python tk nvidia-utils polkit
